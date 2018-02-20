@@ -1,13 +1,12 @@
 import 'babel-polyfill'
 //
 import {expect} from 'chai'
-import path from 'path'
-import fs from 'fs'
-//
 import axios from 'axios'
 import axiosAdapter from 'axios-mock-adapter';
 //
-import VuexActionTester from '../helpers/vuex-action-tester.js'
+import VuexActionTester from '../helpers/vuex-action-tester'
+import * as DataLoader from '../helpers/data-loader'
+
 //
 import * as actions from '../../../src/actions'
 import * as MutationTypes from '../../../src/mutation-types'
@@ -25,9 +24,7 @@ describe("actions", function() {
 
     describe("network success", function() {
       beforeEach(function() {
-        let datapath = path.resolve(__dirname, '../../data/jan-bletchley-10.csv')
-        let csvfile = fs.readFileSync(datapath, "utf8");
-        this.mock.onGet('https://www.bletchleyindexes.com/weights/jan.csv').reply(200,csvfile)
+        this.mock.onGet('https://www.bletchleyindexes.com/weights/jan.csv').reply(200,DataLoader.CSVFile())
       })
       it("stores new indexes and members", (done) => {
         let state = {indexes:[], members:[]}
