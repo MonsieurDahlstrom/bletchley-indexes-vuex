@@ -29,11 +29,11 @@ export default class VuexActionTester {
 
   commit (type,payload) {
     if(this.mutations.length === 0) {
-      throw Error('Expected no mutations')
+      this.done(new Error('Expected no mutations'))
     }
     const mutation = this.mutations[this.mutationsCount]
     if(mutation === undefined) {
-      throw Error('Received more mutations then expected')
+      this.done(new Error('Received more mutations then expected'))
     }
     expect(mutation.type).to.equal(type)
     expect(mutation.validation(payload)).to.not.throw
@@ -42,11 +42,11 @@ export default class VuexActionTester {
 
   dispatch (type,payload) {
     if(this.dispatches.length === 0) {
-      throw Error('Expected no dispatches')
+      this.done(new Error('Expected no dispatches'))
     }
     const dispatch = this.dispatches[this.dispatchesCount]
     if(dispatch === undefined) {
-      throw Error('Received more dispatches then expected')
+      this.done(new Error('Received more dispatches then expected'))
     }
     expect(dispatch.type).to.equal(type)
     expect(dispatch.validation(payload)).to.not.throw

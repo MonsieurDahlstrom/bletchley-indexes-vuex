@@ -1,3 +1,4 @@
+import * as MutationTypes from './mutation-types'
 import BletchleyIndexes from 'bletchley-indexes'
 
 export async function retrive ({ state, commit, rootState }, payload) {
@@ -7,11 +8,10 @@ export async function retrive ({ state, commit, rootState }, payload) {
   if(indexes.length > 0) return
   try {
     let list = await BletchleyIndexes.retriveIndexes(payload.date)
-    console.log(list);
     for(let bletchleyIndex of list) {
-      console.log(Object.entries(bletchleyIndex))
-      for(let indexMember of bletchleyIndex.members) {
-        console.log(indexMember);
+      commit(MutationTypes.ADD_BLETCHLEY_INDEX, {index: bletchleyIndex} )
+      for(let bletchleyMember of bletchleyIndex.members) {
+        commit(MutationTypes.ADD_BLETCHLEY_MEMBER, {member: bletchleyMember} )
       }
     }
   }catch(err) {

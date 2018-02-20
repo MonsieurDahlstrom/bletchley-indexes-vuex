@@ -205,8 +205,8 @@ aws4@^1.2.1:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
 axios-mock-adapter@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/axios-mock-adapter/-/axios-mock-adapter-1.13.1.tgz#05a83b0fa5fe22d75efbefaf125f65d6d9413a72"
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/axios-mock-adapter/-/axios-mock-adapter-1.14.0.tgz#11996250fc6dac26d26bbb47ee0905afee5d2cbc"
   dependencies:
     deep-equal "^1.0.1"
 
@@ -734,8 +734,8 @@ binary-extensions@^1.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
 
 bletchley-indexes@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/bletchley-indexes/-/bletchley-indexes-0.1.0.tgz#1e88e4d10918d60c57f4d7acf8ceda4e60935f2d"
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/bletchley-indexes/-/bletchley-indexes-0.1.2.tgz#2611c70895c35ffd54f3ae7f487735484d66ec00"
   dependencies:
     axios "^0.17.1"
     csv "^2.0.0"
@@ -791,8 +791,8 @@ callsites@^0.2.0:
   resolved "https://registry.yarnpkg.com/callsites/-/callsites-0.2.0.tgz#afab96262910a7f33c19a5775825c69f34e350ca"
 
 caniuse-lite@^1.0.30000792:
-  version "1.0.30000809"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000809.tgz#1e12c1344b8f74d56737ee2614bcedb648943479"
+  version "1.0.30000810"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000810.tgz#47585fffce0e9f3593a6feea4673b945424351d9"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1472,8 +1472,8 @@ inquirer@^3.0.6:
     through "^2.3.6"
 
 invariant@^2.2.0, invariant@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
   dependencies:
     loose-envify "^1.0.0"
 
