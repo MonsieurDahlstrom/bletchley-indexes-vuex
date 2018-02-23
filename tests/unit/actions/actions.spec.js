@@ -59,13 +59,13 @@ describe("actions", function() {
         }
         //
         clock = sinon.useFakeTimers(timeNow)
-        var test = new VuexActionTester(actions.retrive, {date: monthToRetrive}, mutations,[], done)
+        var test = new VuexActionTester(actions.retrive, monthToRetrive, mutations,[], done)
         test.state = state
         test.run()
       })
       it("skips stored indexes", (done) => {
         clock = sinon.useFakeTimers(timeNow)
-        var test = new VuexActionTester(actions.retrive, {date: monthToRetrive}, [], [], done)
+        var test = new VuexActionTester(actions.retrive, monthToRetrive, [], [], done)
         test.state = {indexes: [{name:"hello", year: monthToRetrive.getFullYear(), month: monthToRetrive.getMonth(), members: []}]}
         test.run()
       })
@@ -82,7 +82,8 @@ describe("actions", function() {
       })
 
       it("should not return fresh results", (done) => {
-        var test = new VuexActionTester(actions.retrive, {date: new Date(2018, 0 ,1)}, [],[],done)
+        clock = sinon.useFakeTimers(timeNow)
+        var test = new VuexActionTester(actions.retrive, monthToRetrive, [],[],done)
         test.state = {indexes:[]}
         test.run()
       })
