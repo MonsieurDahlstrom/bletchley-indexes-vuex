@@ -1,8 +1,12 @@
 import 'babel-polyfill'
 //
 import {expect} from 'chai'
+import sinon from 'sinon'
+
 import axios from 'axios'
 import axiosAdapter from 'axios-mock-adapter';
+import moment from 'moment'
+
 //
 import VuexActionTester from '../helpers/vuex-action-tester'
 import * as DataLoader from '../helpers/data-loader'
@@ -14,18 +18,29 @@ import * as MutationTypes from '../../../src/mutation-types'
 describe("actions", function() {
   describe("#retrive", function() {
 
+    let mock
+    let clock
     beforeEach(function() {
-      this.mock = new axiosAdapter(axios);
+      mock = new axiosAdapter(axios);
     })
 
     afterEach(function() {
-      this.mock.restore();
+      if(mock)
+        mock.restore();
+      if(clock)
+        clock.restore();
     })
 
     describe("network success", function() {
+
+      let timeNow
+      let monthToRetrive
       beforeEach(function() {
-        this.mock.onGet('https://www.bletchleyindexes.com/weights/jan.csv').reply(200,DataLoader.CSVFile())
+        timeNow = moment("2018-01-25","YYYY-MM-DD").toDate()
+        monthToRetrive = moment("2018-01-14","YYYY-MM-DD").toDate()
+        mock.onGet(/https:\/\/www.bletchleyindexes.com\/weights\/[a-zA-Z]{3}.csv/).reply(200,DataLoader.CSVFile())
       })
+
       it("stores new indexes and members", (done) => {
         let state = {indexes:[], members:[]}
         let mutations = [
@@ -42,25 +57,31 @@ describe("actions", function() {
             }
           )
         }
-        var test = new VuexActionTester(actions.retrive, {date: new Date(2018, 0 ,1)}, mutations,[], done)
+        //
+        clock = sinon.useFakeTimers(timeNow)
+        var test = new VuexActionTester(actions.retrive, {date: monthToRetrive}, mutations,[], done)
         test.state = state
         test.run()
       })
       it("skips stored indexes", (done) => {
-        let beginingOfJan = new Date(2018, 0 ,1)
-        let state = {}
-        state.indexes = [{name:"hello", year: beginingOfJan.getFullYear(), month: beginingOfJan.getMonth(), members: []}]
-        var test = new VuexActionTester(actions.retrive, {date: beginingOfJan}, [], [], done)
-        test.state = state
+        clock = sinon.useFakeTimers(timeNow)
+        var test = new VuexActionTester(actions.retrive, {date: monthToRetrive}, [], [], done)
+        test.state = {indexes: [{name:"hello", year: monthToRetrive.getFullYear(), month: monthToRetrive.getMonth(), members: []}]}
         test.run()
       })
     })
 
     describe("network error", function() {
+
+      let timeNow
+      let monthToRetrive
       beforeEach(function() {
-        this.mock.onGet('https://www.bletchleyindexes.com/weights/jan.csv').networkError();
+        timeNow = moment("2018-01-25","YYYY-MM-DD").toDate()
+        monthToRetrive = moment("2018-01-14","YYYY-MM-DD").toDate()
+        mock.onGet(/https:\/\/www.bletchleyindexes.com\/weights\/[a-zA-Z]{3}.csv/).networkError();
       })
-      it("should complete", (done) => {
+
+      it("should not return fresh results", (done) => {
         var test = new VuexActionTester(actions.retrive, {date: new Date(2018, 0 ,1)}, [],[],done)
         test.state = {indexes:[]}
         test.run()

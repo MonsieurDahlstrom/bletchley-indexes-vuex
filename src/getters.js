@@ -5,7 +5,9 @@ const getters = {
     let month = dateForMonth.getMonth()
     return state.indexes.filter( index => index.year === year && index.month === month)
   },
-  membersForBletchleyIndex: (state, getters) => (bletchleyIndex) => state.indexes.find( index => index.id === bletchleyIndex.id).members
+  membersForBletchleyIndex: (state, getters) => (bletchleyIndex) => {
+    return state.members.filter(member => member.bletchley_index_id === bletchleyIndex.id)
+  }
 }
 
 export default getters

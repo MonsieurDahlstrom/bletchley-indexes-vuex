@@ -1,37 +1,53 @@
 import 'babel-polyfill'
 //
 import {expect} from 'chai'
-import Vue from 'vue'
-import Vuex from 'vuex'
+import moment from 'moment'
 //
 import * as DataLoader from '../helpers/data-loader'
 //
-import vuexModule from '../../../src'
-//
 
-Vue.use(Vuex)
+
 
 describe("BletchleyIndex Getters", function() {
 
   describe("indexes", function() {
-    let state
     let store
     let dateForMonth
-    before(function() {
+    let pastDate
+    beforeEach(function() {
       dateForMonth = new Date()
-      let item = DataLoader.Bletchley10Index()
-      store = new Vuex.Store({state: {}, modules: {vuexModule}})
-      store.commit("ADD_BLETCHLEY_INDEX",{index:item})
+      store = DataLoader.StoreWithIndexes([DataLoader.Bletchley10Index()])
+      pastDate = moment().subtract(40, 'days').toDate()
     })
-    it('returns index', () => {
+    it('returns existing index', () => {
       let result = store.getters.bletchleyIndexes(dateForMonth)
       expect(result).to.be.an('array')
       expect(result.length).to.equal(1)
     })
+    it('returns empty array', () => {
+      let result = store.getters.bletchleyIndexes(pastDate)
+      expect(result).to.be.an('array')
+      expect(result.length).to.equal(0)
+    })
   })
 
   describe("membersForIndex", function() {
-
+    let store
+    beforeEach(function() {
+      store = DataLoader.StoreWithIndexes([DataLoader.Bletchley10Index()])
+    })
+    it("bletchley indexes with members", function() {
+      let list = store.getters.bletchleyIndexes(new Date())
+      let result = store.getters.membersForBletchleyIndex(list[0])
+      expect(result).to.be.an('array')
+      expect(result.length).to.equal(10)
+    })
+    it("bletchley index not stored", function () {
+      let bletchleyIndex = DataLoader.Bletchley10Index()
+      let result = store.getters.membersForBletchleyIndex(bletchleyIndex)
+      expect(result).to.be.an('array')
+      expect(result.length).to.equal(0)
+    })
   })
 
 })
