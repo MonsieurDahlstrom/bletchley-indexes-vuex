@@ -1,4 +1,12 @@
 {
+  "name": "bletchley-indexes-vuex",
+  "version": "0.1.0",
+  "description": "vuex module to cache data from bletchleyindexes.com",
+  "main": "dist/index.js",
+  "repository": "https://github.com/MonsieurDahlstrom/bletchley-indexes-vuex.git",
+  "author": "Monsiuer Dahlstrom ltd",
+  "license": "BSD",
+  "private": true,
   "dependencies": {
     "bletchley-indexes": "^0.1.0",
     "vue": "^2.5.13",

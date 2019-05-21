@@ -1,39 +1,37 @@
 import path from 'path'
 import fs from 'fs'
-import parse from 'csv-parse/lib/sync'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import uuidv4 from 'uuid/v4';
-import numeral from 'numeral'
+import BletchleyCSV from 'bletchley-indexes'
+import parse from 'csv-parse/lib/sync'
+
 //
 import vuexModule from '../../../src'
+import * as MutationTypes from '../../../src/mutation-types'
 
 Vue.use(Vuex)
 
-export function CSVFile() {
-  let datapath = path.resolve(__dirname, '../../data/jan-bletchley-10.csv')
+export function CSVData() {
+  let datapath = path.resolve(__dirname, '../../data/august_2018.csv')
   let csvfile = fs.readFileSync(datapath, "utf8");
-  return csvfile
+  return parse(csvfile)
 }
 
-export function Bletchley10Index() {
-  let rows = parse(CSVFile(),{})
-  let dateNow = new Date()
-  let index = {id: uuidv4(), name:rows[0][2], members:[], year: dateNow.getFullYear(), month: dateNow.getMonth()}
-  for(let memberIndex=1; memberIndex < 11; memberIndex++) {
-    let member = {id: uuidv4(), symbol:rows[memberIndex][0], capitalisation:numeral(rows[memberIndex][1]).value(), weight: numeral(rows[memberIndex][2]).value(), bletchley_index_id: index.id}
-    index.members.push(member)
-  }
-  return index
+export async function Bletchley10Index() {
+  let bletchley = new BletchleyCSV()
+  let list = await bletchley.findCoinIndexes( CSVData() )
+  let index10 = list.find( index => index.name === "10")
+  index10.date = new Date(2018,8)
+  return index10
 }
 
-export function StoreWithIndexes(indexArray) {
+export function StoreWithIndexes(list) {
   let store = new Vuex.Store({state: {}, modules: {vuexModule}})
-  for(let bletchleyIndex of indexArray) {
-    store.commit("ADD_BLETCHLEY_INDEX",{index:bletchleyIndex})
-    for(let bletchleyMember of bletchleyIndex.members) {
-      store.commit("ADD_BLETCHLEY_MEMBER",{member:bletchleyMember})
-    }
-  }
+  let names = list.map( index => index.name)
+  let currencies = new Set()
+  list.forEach( (entry) => entry.currencies.forEach( (coin) => currencies.add(coin.symbol)) )
+  store.commit(MutationTypes.ADD_INDEXES, {indexes: names} )
+  store.commit(MutationTypes.ADD_CURRENCY_SYMBOLS, {currencies: Array.from(currencies)} )
+  store.commit(MutationTypes.ADD_INDEX_UPDATES, {updates: list} )
   return store
 }

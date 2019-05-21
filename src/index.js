@@ -4,7 +4,8 @@ import Mutations from './mutations'
 
 const bletchleyState = {
   indexes:[],
-  members:[]
+  currencies:[],
+  updates:[]
 }
 
 const VuexModule = {
