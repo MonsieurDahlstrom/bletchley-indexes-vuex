@@ -6,7 +6,7 @@
   "repository": "https://github.com/MonsieurDahlstrom/bletchley-indexes-vuex.git",
   "author": "Monsiuer Dahlstrom ltd",
   "license": "BSD",
-  "private": true,
+  "private": false,
   "dependencies": {
     "bletchley-indexes": "^0.1.5",
     "vue": "^2.6.0",
