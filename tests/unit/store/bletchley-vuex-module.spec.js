@@ -11,7 +11,11 @@ Vue.use(Vuex)
 
 describe("BletchleyIndexesModule", function() {
   describe("Module Properties", function() {
-    it("has state", () => expect(module.state).to.exist )
+    describe("state", function() {
+      it("has indexes", () => expect(module.state.indexes).to.exist )
+      it("has currencies", () => expect(module.state.currencies).to.exist )
+      it("has updates", () => expect(module.state.updates).to.exist )
+    })
     it("has getters", () => expect(module.getters).to.exist )
     it("has actions", () => expect(module.actions).to.exist )
     it("has mutations", () => expect(module.mutations).to.exist )
