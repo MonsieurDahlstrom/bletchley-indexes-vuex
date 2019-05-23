@@ -1,12 +1,12 @@
 
 const getters = {
-  bletchleyUpdate: (state, getters, rootState) => (indexName, date) => {
+  updateForIndexAndDate: (state, getters, rootState) => (indexName, date) => {
     //updates are index based on the first day of the specific month
     let startOfTheMonth = new Date(date.getFullYear(), date.getMonth())
     let update = state.updates.find( update => update.name === indexName && update.date.getTime() === startOfTheMonth.getTime())
     return update
   },
-  bletchleyUpdates: (state, getters, rootState) => (indexName) => {
+  updatesForIndex: (state, getters, rootState) => (indexName) => {
     return state.updates.filter( update => update.name === indexName)
   }
 }

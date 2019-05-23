@@ -12,7 +12,8 @@ const VuexModule = {
   state: bletchleyState,
   mutations: Mutations,
   actions: Actions,
-  getters: Getters
+  getters: Getters,
+  namespaced: true
 }
 
 export default VuexModule

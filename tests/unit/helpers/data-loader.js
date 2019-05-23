@@ -26,12 +26,12 @@ export async function Bletchley10Index() {
 }
 
 export function StoreWithIndexes(list) {
-  let store = new Vuex.Store({state: {}, modules: {vuexModule}})
+  let store = new Vuex.Store({state: {}, modules: {bletchley: vuexModule}})
   let names = list.map( index => index.name)
   let currencies = new Set()
   list.forEach( (entry) => entry.currencies.forEach( (coin) => currencies.add(coin.symbol)) )
-  store.commit(MutationTypes.ADD_INDEXES, {indexes: names} )
-  store.commit(MutationTypes.ADD_CURRENCY_SYMBOLS, {currencies: Array.from(currencies)} )
-  store.commit(MutationTypes.ADD_INDEX_UPDATES, {updates: list} )
+  store.commit('bletchley/' + MutationTypes.ADD_INDEXES, {indexes: names} )
+  store.commit('bletchley/' + MutationTypes.ADD_CURRENCY_SYMBOLS, {currencies: Array.from(currencies)} )
+  store.commit('bletchley/' + MutationTypes.ADD_INDEX_UPDATES, {updates: list} )
   return store
 }
