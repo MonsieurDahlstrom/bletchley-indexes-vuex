@@ -1,6 +1,6 @@
 {
   "name": "bletchley-indexes-vuex",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "vuex module to cache data from bletchleyindexes.com",
   "main": "dist/index.js",
   "repository": "https://github.com/MonsieurDahlstrom/bletchley-indexes-vuex.git",
